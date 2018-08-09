@@ -24,7 +24,10 @@ peliculaTienePalabrasClave palabras pelicula = String.contains "Toy" pelicula.ti
 -- **************
 
 filtrarPeliculasPorGenero : String -> List Movie -> List Movie
-filtrarPeliculasPorGenero genero = completaAca
+filtrarPeliculasPorGenero genero = List.filter (peliculaGenero genero)
+
+peliculaGenero : String -> Movie -> Bool
+peliculaGenero genero pelicula = List.member genero pelicula.genre
 
 -- **************
 -- Requerimiento: filtrar las películas que sean aptas para menores de edad,
@@ -32,7 +35,10 @@ filtrarPeliculasPorGenero genero = completaAca
 -- **************
 
 filtrarPeliculasPorMenoresDeEdad : Bool -> List Movie -> List Movie
-filtrarPeliculasPorMenoresDeEdad mostrarSoloMenores = completaAca
+filtrarPeliculasPorMenoresDeEdad mostrarSoloMenores = List.filter menores
+
+menores : Movie -> Bool
+menores pelicula = pelicula.forKids
 
 -- **************
 -- Requerimiento: ordenar las películas por su rating;
@@ -46,8 +52,11 @@ ordenarPeliculasPorRating = completaAca
 -- **************
 
 darLikeAPelicula : Int -> List Movie -> List Movie
-darLikeAPelicula id = completaAca
+darLikeAPelicula id = List.map (darLikePorId id)
 
+darLikePorId : Int -> Movie -> Movie
+darLikePorId id pelicula = if pelicula.id == id then {pelicula | likes = pelicula.likes+1} else pelicula
+  
 -- **************
 -- Requerimiento: cargar preferencias a través de un popup modal,
 --                calcular índice de coincidencia de cada película y
