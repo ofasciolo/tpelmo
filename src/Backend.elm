@@ -45,10 +45,10 @@ menores pelicula = pelicula.forKids
 -- **************
 
 ordenarPeliculasPorRating : List Movie -> List Movie
-ordenarPeliculasPorRating = completaAca
+ordenarPeliculasPorRating = List.reverse << List.sortBy .rating  
 
 -- **************
--- Requerimiento: dar like a una película
+-- Requerimiento: dar like a una película 
 -- **************
 
 darLikeAPelicula : Int -> List Movie -> List Movie
