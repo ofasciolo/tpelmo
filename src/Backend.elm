@@ -1,5 +1,7 @@
 module Backend exposing(..)
 import Models exposing(Movie, Preferences)
+import Regex exposing (regex)
+
 
 completaAca = identity
 
@@ -17,7 +19,7 @@ filtrarPeliculasPorPalabrasClave palabras = List.filter (peliculaTienePalabrasCl
 -- * distingue mayúsculas de minúsculas, pero debería encontrar a "Lion King" aunque escriba "kINg"
 -- * busca una coincidencia exacta, pero si escribís "Avengers Ultron" debería encontrar a "Avengers: Age Of Ultron"
 --
-peliculaTienePalabrasClave palabras pelicula = String.contains (String.toUpper palabras) (String.toUpper pelicula.title) 
+peliculaTienePalabrasClave palabras pelicula = Regex.contains ((Regex.caseInsensitive << Regex.regex) palabras) pelicula.title
 
 -- **************
 -- Requerimiento: visualizar las películas según el género elegido en un selector;
@@ -62,6 +64,7 @@ darLikePorId id pelicula = if pelicula.id == id then {pelicula | likes = pelicul
 --                calcular índice de coincidencia de cada película y
 --                mostrarlo junto a la misma;
 -- **************
-
-calcularPorcentajeDeCoincidencia : Preferences -> List Movie -> List Movie
+calcularPorcentajeDeCoincidencia : Preferences -> List Movie -> List Movie 
 calcularPorcentajeDeCoincidencia preferencias = completaAca
+--(filtrarPeliculasPorActor preferencias.favoriteActor << filtrarPeliculasPorGenero preferencias.genre << filtrarPeliculasPorPalabrasClave preferencias.keywords) 
+-- filtrarPeliculasPorActor =
